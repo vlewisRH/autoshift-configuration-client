@@ -23,10 +23,35 @@ var instanceSize = map[string][]string{
 	"t3a": {"large", "xlarge", "2xlarge"},
 }
 
+var envs := []string{"dev","sbx","infra","impl","prod"}
+
+var selectInstanceType *widget.NewSelectEntry
+var sselectInstanceSize *widget.NewSelectEntry
+
 func clusterSettings() fyne.CanvasObject {
+
+    envTabs := []container.NewTabItem
+    for i,k := range envs {
+		envsTabs[i] = container.NewTabItem(k,nodeCards())
+	}
+
 	tabs := container.NewAppTabs(
-		container.NewTabItem("Cluster", widget.NewLabel("See TODO ")),
+        envTabs
 	)
 
 	return tabs
+}
+
+func nodeCards(){
+    cards := container.New(
+		layout.NewGridLayout(2),
+		widget.NewCard("Master","",
+		    container.NewForm(
+				widget.NewLabel("Instance Type:")
+				selectInstanceType
+				widget.NewLabel("Instance Size:")
+                selectInstanceSize
+			)
+		)
+	)
 }
